@@ -156,6 +156,7 @@ __m128i test_mm_broadcastb_epi8(__m128i a) {
   // CHECK: shufflevector <16 x i8> %{{.*}}, <16 x i8> %{{.*}}, <16 x i32> zeroinitializer
   return _mm_broadcastb_epi8(a);
 }
+TEST_CONSTEXPR(match_v16qi(_mm_broadcastb_epi8((__m128i)(__v16qi){42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}), 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42));
 
 __m256i test_mm256_broadcastb_epi8(__m128i a) {
   // CHECK-LABEL: test_mm256_broadcastb_epi8
@@ -163,6 +164,7 @@ __m256i test_mm256_broadcastb_epi8(__m128i a) {
   // CHECK: shufflevector <16 x i8> %{{.*}}, <16 x i8> %{{.*}}, <32 x i32> zeroinitializer
   return _mm256_broadcastb_epi8(a);
 }
+TEST_CONSTEXPR(match_v32qi(_mm256_broadcastb_epi8((__m128i)(__v16qi){42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}), 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42));
 
 __m128i test_mm_broadcastd_epi32(__m128i a) {
   // CHECK-LABEL: test_mm_broadcastd_epi32
@@ -170,6 +172,7 @@ __m128i test_mm_broadcastd_epi32(__m128i a) {
   // CHECK: shufflevector <4 x i32> %{{.*}}, <4 x i32> %{{.*}}, <4 x i32> zeroinitializer
   return _mm_broadcastd_epi32(a);
 }
+TEST_CONSTEXPR(match_v4si(_mm_broadcastd_epi32((__m128i)(__v4si){-42, 0, 0, 0}), -42, -42, -42, -42));
 
 __m256i test_mm256_broadcastd_epi32(__m128i a) {
   // CHECK-LABEL: test_mm256_broadcastd_epi32
@@ -177,6 +180,7 @@ __m256i test_mm256_broadcastd_epi32(__m128i a) {
   // CHECK: shufflevector <4 x i32> %{{.*}}, <4 x i32> %{{.*}}, <8 x i32> zeroinitializer
   return _mm256_broadcastd_epi32(a);
 }
+TEST_CONSTEXPR(match_v8si(_mm256_broadcastd_epi32((__m128i)(__v4si){-42, 0, 0, 0}), -42, -42, -42, -42, -42, -42, -42, -42));
 
 __m128i test_mm_broadcastq_epi64(__m128i a) {
   // CHECK-LABEL: test_mm_broadcastq_epi64
@@ -184,6 +188,7 @@ __m128i test_mm_broadcastq_epi64(__m128i a) {
   // CHECK: shufflevector <2 x i64> %{{.*}}, <2 x i64> %{{.*}}, <2 x i32> zeroinitializer
   return _mm_broadcastq_epi64(a);
 }
+TEST_CONSTEXPR(match_v2di(_mm_broadcastq_epi64((__m128i)(__v2di){-42, 0}), -42, -42));
 
 __m256i test_mm256_broadcastq_epi64(__m128i a) {
   // CHECK-LABEL: test_mm256_broadcastq_epi64
@@ -191,12 +196,14 @@ __m256i test_mm256_broadcastq_epi64(__m128i a) {
   // CHECK: shufflevector <2 x i64> %{{.*}}, <2 x i64> %{{.*}}, <4 x i32> zeroinitializer
   return _mm256_broadcastq_epi64(a);
 }
+TEST_CONSTEXPR(match_v4di(_mm256_broadcastq_epi64((__m128i)(__v2di){-42, 0}), -42, -42, -42, -42));
 
 __m128d test_mm_broadcastsd_pd(__m128d a) {
   // CHECK-LABEL: test_mm_broadcastsd_pd
   // CHECK: shufflevector <2 x double> %{{.*}}, <2 x double> %{{.*}}, <2 x i32> zeroinitializer
   return _mm_broadcastsd_pd(a);
 }
+TEST_CONSTEXPR(match_m128d(_mm_broadcastsd_pd((__m128d){+7.0, -7.0}), +7.0, +7.0));
 
 __m256d test_mm256_broadcastsd_pd(__m128d a) {
   // CHECK-LABEL: test_mm256_broadcastsd_pd
@@ -204,12 +211,14 @@ __m256d test_mm256_broadcastsd_pd(__m128d a) {
   // CHECK: shufflevector <2 x double> %{{.*}}, <2 x double> %{{.*}}, <4 x i32> zeroinitializer
   return _mm256_broadcastsd_pd(a);
 }
+TEST_CONSTEXPR(match_m256d(_mm256_broadcastsd_pd((__m128d){+7.0, -7.0}), +7.0, +7.0, +7.0, +7.0));
 
 __m256i test_mm256_broadcastsi128_si256(__m128i a) {
   // CHECK-LABEL: test_mm256_broadcastsi128_si256
   // CHECK: shufflevector <2 x i64> %{{.*}}, <2 x i64> %{{.*}}, <4 x i32> <i32 0, i32 1, i32 0, i32 1>
   return _mm256_broadcastsi128_si256(a);
 }
+TEST_CONSTEXPR(match_m256i(_mm256_broadcastsi128_si256((__m128i)(__v2di){3, 45}), 3, 45, 3, 45));
 
 __m256i test_mm_broadcastsi128_si256(__m128i a) {
   // CHECK-LABEL: test_mm_broadcastsi128_si256
@@ -223,6 +232,7 @@ __m128 test_mm_broadcastss_ps(__m128 a) {
   // CHECK: shufflevector <4 x float> %{{.*}}, <4 x float> %{{.*}}, <4 x i32> zeroinitializer
   return _mm_broadcastss_ps(a);
 }
+TEST_CONSTEXPR(match_m128(_mm_broadcastss_ps((__m128){-4.0f, +5.0f, +6.0f, +7.0f}), -4.0f, -4.0f, -4.0f, -4.0f));
 
 __m256 test_mm256_broadcastss_ps(__m128 a) {
   // CHECK-LABEL: test_mm256_broadcastss_ps
@@ -230,6 +240,7 @@ __m256 test_mm256_broadcastss_ps(__m128 a) {
   // CHECK: shufflevector <4 x float> %{{.*}}, <4 x float> %{{.*}}, <8 x i32> zeroinitializer
   return _mm256_broadcastss_ps(a);
 }
+TEST_CONSTEXPR(match_m256(_mm256_broadcastss_ps((__m128){-4.0f, +5.0f, +6.0f, +7.0f}), -4.0f, -4.0f, -4.0f, -4.0f, -4.0f, -4.0f, -4.0f, -4.0f));
 
 __m128i test_mm_broadcastw_epi16(__m128i a) {
   // CHECK-LABEL: test_mm_broadcastw_epi16
@@ -237,6 +248,7 @@ __m128i test_mm_broadcastw_epi16(__m128i a) {
   // CHECK: shufflevector <8 x i16> %{{.*}}, <8 x i16> %{{.*}}, <8 x i32> zeroinitializer
   return _mm_broadcastw_epi16(a);
 }
+TEST_CONSTEXPR(match_v8hi(_mm_broadcastw_epi16((__m128i)(__v8hi){42, 0, 0, 0, 0, 0, 0, 0}), 42, 42, 42, 42, 42, 42, 42, 42));
 
 __m256i test_mm256_broadcastw_epi16(__m128i a) {
   // CHECK-LABEL: test_mm256_broadcastw_epi16
@@ -244,6 +256,7 @@ __m256i test_mm256_broadcastw_epi16(__m128i a) {
   // CHECK: shufflevector <8 x i16> %{{.*}}, <8 x i16> %{{.*}}, <16 x i32> zeroinitializer
   return _mm256_broadcastw_epi16(a);
 }
+TEST_CONSTEXPR(match_v16hi(_mm256_broadcastw_epi16((__m128i)(__v8hi){42, 0, 0, 0, 0, 0, 0, 0}), 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42));
 
 __m256i test_mm256_bslli_epi128(__m256i a) {
   // CHECK-LABEL: test_mm256_bslli_epi128
